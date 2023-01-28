@@ -7,6 +7,23 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 def get_specific_info(url: str = "https://www.netflix.com/in/title/80179292"):
+    """
+        This function returns specific inforamtion for a movie, series or other show.
+        You want to know, how many episodes a series have? What the descriptions are? How long a episode lasts?
+        All kind of data will be returned, which ist available under the specific Netflix url.
+
+        :param url (str): The url, which should get parsed. Standard url is the series S.W.A.T for developing purposes.
+        :return (list): A list of all series, which could get found under the url.
+
+        An example of the data:
+        <li class = "episode" data-uia = "episode" > <figure class = "episode-thumbnail" data-uia = "episode-thumbnail" >
+        <span class = "episode-thumbnail-gradient" >
+        </span > <img alt = "Watch Vendetta. Episode 20 of Season 1." class = "episode-thumbnail-image" data-uia = "episode-thumbnail-image" loading = "lazy"
+        src = "https://occ-0-2774-4415.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZa21SaxmN_yVLUq9aMHcgRg5OqsprSZa8g3L2gxqX79J7RL3ztznO1QZ4fajUvZj5uxZNsO4Ysk7Mn5fq_OlSKkOwxcgSxO8zz61voENZnNGmC9ynM0gpuD.jpg?r=1fa"/>
+        </figure > <div class = "episode-metadata" > <h3 class = "episode-title" data-uia = "episode-title" > 20. Vendetta < /h3 >
+        <span class = "episode-runtime" data-uia = "episode-runtime" > 43m < /span > </div > <p class = "epsiode-synopsis" data-uia = "episode-synopsis" > </p > </li >,
+    """
+
     _resp = requests.get(url)
     # print(_resp.status_code)  # If 200: successfully scraped the target page
     _soup = BeautifulSoup(_resp.text, 'html.parser')
@@ -19,12 +36,6 @@ def get_specific_info(url: str = "https://www.netflix.com/in/title/80179292"):
     e = {}
     l = list()
     episodes = _soup.find("ol", {"class": "episodes-container"}).find_all("li")
-    # <li class = "episode" data-uia = "episode" > <figure class = "episode-thumbnail" data-uia = "episode-thumbnail" >
-    # <span class = "episode-thumbnail-gradient" >
-    # </span > <img alt = "Watch Vendetta. Episode 20 of Season 1." class = "episode-thumbnail-image" data-uia = "episode-thumbnail-image" loading = "lazy"
-    # src = "https://occ-0-2774-4415.1.nflxso.net/dnm/api/v6/9pS1daC2n6UGc3dUogvWIPMR_OU/AAAABZa21SaxmN_yVLUq9aMHcgRg5OqsprSZa8g3L2gxqX79J7RL3ztznO1QZ4fajUvZj5uxZNsO4Ysk7Mn5fq_OlSKkOwxcgSxO8zz61voENZnNGmC9ynM0gpuD.jpg?r=1fa"/>
-    # </figure > <div class = "episode-metadata" > <h3 class = "episode-title" data-uia = "episode-title" > 20. Vendetta < /h3 >
-    # <span class = "episode-runtime" data-uia = "episode-runtime" > 43m < /span > </div > <p class = "epsiode-synopsis" data-uia = "episode-synopsis" > </p > </li >,
 
     # pp.pprint(episodes)
     e["episode-Number"] = len(episodes)
@@ -41,9 +52,17 @@ def get_specific_info(url: str = "https://www.netflix.com/in/title/80179292"):
 
 
 def get_list_of_series(series_url: str = "https://www.netflix.com/browse/genre/83") -> list:
-    #  <a class = "nm-collections-title nm-collections-link" data-uia = "collections-title" href = "https://www.netflix.com/de-en/title/80236236" >
-    #  <img alt = "" class = "nm-collections-title-img" data-title-id = "80236236" src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>
-    #  < span class = "nm-collections-title-img placeholder" > </span > <span class = "nm-collections-title-name" > Another Life < /span > </a >,
+    """
+        This function returns a list of all series, which are available under a specific Netflix url.
+
+        :param series_url (str): The url, which should get parsed. Standard url is the series section at Netflix.
+        :return (list): A list of all series, which could get found under the url.
+
+        An example of the data:
+        <a class = "nm-collections-title nm-collections-link" data-uia = "collections-title" href = "https://www.netflix.com/de-en/title/80236236" >
+        <img alt = "" class = "nm-collections-title-img" data-title-id = "80236236" src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>
+        < span class = "nm-collections-title-img placeholder" > </span > <span class = "nm-collections-title-name" > Another Life < /span > </a >,
+    """
 
     series_resp = requests.get(series_url)
     series_soup = BeautifulSoup(series_resp.text, 'html.parser')
@@ -66,10 +85,17 @@ def get_list_of_series(series_url: str = "https://www.netflix.com/browse/genre/8
 
 
 def get_list_of_movies(movie_url: str = "https://www.netflix.com/browse/genre/34399") -> list:
+    """
+        This function returns a list of all movies, which are available under a specific Netflix url.
 
-    # <a class = "nm-collections-title nm-collections-link" data-uia = "collections-title" href = "https://www.netflix.com/de-en/title/81346063" >
-    # <img alt = "" class = "nm-collections-title-img" data-title-id = "81346063" src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>
-    # < span class = "nm-collections-title-img placeholder" > </span > <span class = "nm-collections-title-name" > Love Tactics < /span > </a >,
+        :param movie_url (str): The url, which should get parsed. Standard url is the movie section at Netflix.
+        :return (list): A list of all movies, which could get found under the url.
+
+        An example of the data:
+        <a class = "nm-collections-title nm-collections-link" data-uia = "collections-title" href = "https://www.netflix.com/de-en/title/81346063" >
+        <img alt = "" class = "nm-collections-title-img" data-title-id = "81346063" src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>
+        < span class = "nm-collections-title-img placeholder" > </span > <span class = "nm-collections-title-name" > Love Tactics < /span > </a >,
+    """
 
     movie_resp = requests.get(movie_url)
     # movie_resp.json() # doesn't work with this Netflix url
@@ -93,12 +119,15 @@ def get_list_of_movies(movie_url: str = "https://www.netflix.com/browse/genre/34
     return movies  # 640
 
 
-get_specific_info()
-# get_list_of_series()
-# get_list_of_movies()
+if __name__ == "__main__":
+    get_specific_info()
+    get_list_of_series()
+    get_list_of_movies()
 
 
 """
+    First trys. Maybe it will be helpful in the future.
+
 # data = str(soup.find_all("a"))
 # data_in_list: list = []
 # index_of_start: list = []

@@ -1,9 +1,14 @@
+"""
+    This example could is from the following website:
+
+    # https://thatdatatho.com/scraping-netflix-data-with-python/
+
+"""
 from bs4 import BeautifulSoup
 import requests
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
-# https://thatdatatho.com/scraping-netflix-data-with-python/
 
 l = list()
 o = {}
