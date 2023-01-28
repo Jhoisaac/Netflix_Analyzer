@@ -20,3 +20,12 @@ I am open for tips and other hints.
 ## Virtual environment "pipenv"
 
 I use pipenv as a virtual environment. Therefore you won't need to install all packages to try this code out.
+
+### Using
+
+1. 'git clone https://github.com/piology-1/Netflix_Analyzer.git'
+2. 'cd Netflix_Analyzer'
+3. 'pipenv shell'
+4. 'pipenv install --dev'
+5. 'pipenv --venv'
+6. 'pipenv run main.py'
